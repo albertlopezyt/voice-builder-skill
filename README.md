@@ -73,6 +73,28 @@ voice-profiles/{profile-slug}/voice.md
 
 Use those two files as the source of truth before generating communication for that person, company, or team.
 
+## Make every agent use it
+
+Add this rule to your `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, or agent system prompt:
+
+```text
+Before writing, rewriting, reviewing, planning, or adapting any external communication, load:
+
+- voice-profiles/{profile-slug}/about-me.md
+- voice-profiles/{profile-slug}/voice.md
+
+Use about-me.md for identity, audience, topics, point of view, and boundaries.
+Use voice.md for tone, rhythm, structure, vocabulary, hard rules, and exceptions.
+
+Before creating the piece, briefly confirm:
+1. Voice profile loaded.
+2. Main rules you will apply.
+3. Any conflict or missing input.
+
+If either file is missing, stop and ask the user to run $voice-builder first.
+Do not invent voice patterns that are not in the files.
+```
+
 ## Files
 
 ```text

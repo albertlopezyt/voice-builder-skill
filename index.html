@@ -257,7 +257,59 @@ cp -R voice-builder ~/.codex/skills/</pre>
   </section>
 
   <section>
-    <div class="sec-head"><span class="sec-num">04</span><h2>Prompts para usar tu voz después</h2></div>
+    <div class="sec-head"><span class="sec-num">04</span><h2>Cómo hacer que todos tus agentes lo usen</h2></div>
+    <p class="intro">La skill crea la memoria. Para que tu sistema la use de verdad, no basta con tener los archivos. Tienes que convertirlos en una regla de arranque para tus agentes.</p>
+    <div class="steps">
+      <div class="step"><span class="badge">1</span><div class="step-body"><h3>Guarda la voz dentro del proyecto</h3><p>Deja <code>voice-profiles/mi-marca/about-me.md</code> y <code>voice-profiles/mi-marca/voice.md</code> en el repo o carpeta donde trabajan tus agentes.</p></div></div>
+      <div class="step"><span class="badge">2</span><div class="step-body"><h3>Añade una regla global</h3><p>Pega la regla de abajo en <code>AGENTS.md</code>, <code>CLAUDE.md</code>, <code>GEMINI.md</code> o en el prompt base de tu agente.</p></div></div>
+      <div class="step"><span class="badge">3</span><div class="step-body"><h3>Obliga a leer antes de crear</h3><p>Antes de escribir, revisar o adaptar cualquier pieza externa, el agente debe cargar los dos archivos y decir qué reglas va a aplicar.</p></div></div>
+      <div class="step"><span class="badge">4</span><div class="step-body"><h3>Haz que falle cerrado</h3><p>Si el agente no encuentra los archivos, debe parar y pedir que ejecutes <code>$voice-builder</code>. No debe inventar tu voz.</p></div></div>
+    </div>
+
+    <div class="codebox" style="margin-top:24px">
+      <div class="codebar"><span>Regla para AGENTS.md, CLAUDE.md o prompt base</span><button class="copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg><span class="t">Copiar</span></button></div>
+<pre>## Voice profile
+
+Antes de escribir, reescribir, revisar, planificar o adaptar cualquier pieza de comunicación externa, carga estos archivos:
+
+- voice-profiles/mi-marca/about-me.md
+- voice-profiles/mi-marca/voice.md
+
+Usa about-me.md para entender identidad, audiencia, temas, punto de vista y límites.
+Usa voice.md para aplicar tono, ritmo, estructura, vocabulario, reglas duras y excepciones.
+
+Antes de crear la pieza, responde brevemente:
+1. Perfil de voz cargado.
+2. Reglas principales que vas a aplicar.
+3. Cualquier conflicto o dato que falte.
+
+Si alguno de los dos archivos no existe, no generes la pieza. Pide ejecutar $voice-builder primero.
+No inventes patrones de voz que no estén en los archivos.</pre>
+    </div>
+
+    <div class="prompt-grid">
+      <div class="codebox">
+        <div class="codebar"><span>Agente de contenido</span><button class="copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg><span class="t">Copiar</span></button></div>
+<pre>Tu primera acción en cualquier tarea de contenido es leer:
+- voice-profiles/mi-marca/about-me.md
+- voice-profiles/mi-marca/voice.md
+
+Después escribe, revisa o adapta respetando esos archivos.</pre>
+      </div>
+      <div class="codebox">
+        <div class="codebar"><span>Agente comercial</span><button class="copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg><span class="t">Copiar</span></button></div>
+<pre>Antes de escribir emails, mensajes de venta, propuestas o respuestas a clientes, lee:
+- voice-profiles/mi-marca/about-me.md
+- voice-profiles/mi-marca/voice.md
+
+Mantén la promesa, los límites y la voz del perfil.</pre>
+      </div>
+    </div>
+    <div class="note"><b>La parte importante.</b> Voice Builder no sustituye a tus agentes. Les da memoria. Para que funcione en un sistema real, cada agente que produzca comunicación debe tener esta regla en su contexto inicial.</div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">05</span><h2>Prompts para usar tu voz después</h2></div>
     <p class="intro">Voice Builder no crea todo el sistema de contenido. Crea la memoria. Luego se la das a cualquier agente antes de pedir trabajo.</p>
     <div class="prompt-grid">
       <div class="codebox">
@@ -288,7 +340,7 @@ Después reescribe este email para que suene como yo:
   </section>
 
   <section>
-    <div class="sec-head"><span class="sec-num">05</span><h2>Problemas frecuentes</h2></div>
+    <div class="sec-head"><span class="sec-num">06</span><h2>Problemas frecuentes</h2></div>
     <div class="faq">
       <div><h3>El agente no detecta la skill</h3><p>Comprueba que la carpeta <code>voice-builder</code> está dentro de <code>~/.claude/skills</code> o <code>~/.codex/skills</code>, y que dentro existe <code>SKILL.md</code>. Reinicia la sesión.</p></div>
       <div><h3>No tengo 3 muestras</h3><p>Usa emails, notas, mensajes largos, textos de tu web o transcripciones. La skill funciona mejor con 3 a 5 piezas, pero puedes empezar con lo disponible.</p></div>

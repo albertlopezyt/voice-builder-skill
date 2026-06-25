@@ -135,7 +135,87 @@ voice-profiles/mi-marca/
 
 Estos dos archivos son la memoria que usarán otros agentes para escribir con más criterio.
 
-## Paso 6. Usar tu voz en otros trabajos
+## Paso 6. Hacer que todos tus agentes usen esa voz
+
+La skill solo crea la memoria. Para que tu sistema la use de verdad, tienes que guardar esos archivos donde trabajan tus agentes y convertirlos en una regla permanente.
+
+### 6.1. Guarda la voz dentro del proyecto
+
+Deja los archivos en una ruta estable:
+
+```text
+voice-profiles/mi-marca/
+  about-me.md
+  voice.md
+```
+
+Esa carpeta debe vivir dentro del repo o carpeta principal donde trabajan tus agentes. No la dejes en descargas ni en una conversación suelta.
+
+### 6.2. Añade una regla global
+
+Pega esto en `AGENTS.md`, `CLAUDE.md`, `GEMINI.md` o en el prompt base de cualquier agente que escriba comunicación:
+
+```text
+## Voice profile
+
+Antes de escribir, reescribir, revisar, planificar o adaptar cualquier pieza de comunicación externa, carga estos archivos:
+
+- voice-profiles/mi-marca/about-me.md
+- voice-profiles/mi-marca/voice.md
+
+Usa about-me.md para entender identidad, audiencia, temas, punto de vista y límites.
+Usa voice.md para aplicar tono, ritmo, estructura, vocabulario, reglas duras y excepciones.
+
+Antes de crear la pieza, responde brevemente:
+1. Perfil de voz cargado.
+2. Reglas principales que vas a aplicar.
+3. Cualquier conflicto o dato que falte.
+
+Si alguno de los dos archivos no existe, no generes la pieza. Pide ejecutar $voice-builder primero.
+No inventes patrones de voz que no estén en los archivos.
+```
+
+### 6.3. Añádelo a cada agente específico
+
+Si tienes agentes separados, copia una versión corta en cada uno.
+
+Para un agente de contenido:
+
+```text
+Tu primera acción en cualquier tarea de contenido es leer:
+- voice-profiles/mi-marca/about-me.md
+- voice-profiles/mi-marca/voice.md
+
+Después escribe, revisa o adapta respetando esos archivos.
+```
+
+Para un agente comercial:
+
+```text
+Antes de escribir emails, mensajes de venta, propuestas o respuestas a clientes, lee:
+- voice-profiles/mi-marca/about-me.md
+- voice-profiles/mi-marca/voice.md
+
+Mantén la promesa, los límites y la voz del perfil.
+```
+
+Para un agente de soporte:
+
+```text
+Antes de responder a usuarios o clientes, lee:
+- voice-profiles/mi-marca/about-me.md
+- voice-profiles/mi-marca/voice.md
+
+Responde con la voz del perfil, sin cambiar la promesa ni el tono.
+```
+
+### 6.4. Regla práctica
+
+Si un agente produce texto que sale hacia fuera, debe leer `about-me.md` y `voice.md` antes de crear nada.
+
+Si un agente solo ejecuta código, análisis interno o tareas técnicas, no hace falta cargar la voz salvo que vaya a redactar comunicación.
+
+## Paso 7. Usar tu voz en otros trabajos
 
 Cuando quieras generar contenido con tu voz, dile al agente que lea esos archivos primero.
 
