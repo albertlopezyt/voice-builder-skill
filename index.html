@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voice Builder · Guía de instalación</title>
+<meta name="description" content="Instala Voice Builder en Claude Code o Codex y crea una memoria de voz reutilizable para agentes.">
+<style>
+  :root{
+    --bg:#090b10;
+    --bg2:#0d1017;
+    --surface:#121620;
+    --surface2:#171c28;
+    --code:#080b11;
+    --line:rgba(255,255,255,.08);
+    --line2:rgba(255,255,255,.13);
+    --text:#eef1f7;
+    --muted:#a3a9b8;
+    --faint:#6f7688;
+    --accent:#818cf8;
+    --accent2:#6366f1;
+    --accentSoft:rgba(99,102,241,.13);
+    --green:#34d399;
+    --mono:"SF Mono",ui-monospace,"JetBrains Mono","Menlo",Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:
+      linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px),
+      radial-gradient(900px 520px at 50% -8%, rgba(99,102,241,.18), transparent 62%),
+      radial-gradient(720px 420px at 88% 8%, rgba(129,140,248,.08), transparent 58%),
+      var(--bg);
+    background-size:96px 96px,96px 96px,auto,auto,auto;
+    color:var(--text);
+    font-family:var(--sans);
+    font-size:17px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  a{color:inherit}
+  .wrap{width:min(980px,100%);margin:0 auto;padding:0 24px}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:26px 0 0}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:650}
+  .mark{width:10px;height:10px;border-radius:2px;background:var(--accent2);box-shadow:0 0 18px rgba(99,102,241,.85)}
+  .brand span:last-child{font-size:15px;color:var(--text)}
+  .brand b{color:var(--accent);font-weight:750}
+  .nav{display:flex;align-items:center;gap:10px}
+  .nav a{
+    display:inline-flex;align-items:center;gap:8px;
+    text-decoration:none;border:1px solid var(--line2);border-radius:9px;
+    padding:8px 13px;color:var(--muted);font-size:13px;font-weight:650;
+    transition:all .18s ease;background:rgba(255,255,255,.015);
+  }
+  .nav a:hover{color:var(--text);border-color:var(--accent2);background:var(--accentSoft)}
+  .nav svg,.btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;flex:none}
+
+  header{padding:68px 0 38px;border-bottom:1px solid var(--line)}
+  .kicker{
+    display:inline-flex;align-items:center;gap:9px;
+    font-family:var(--mono);font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--accent);border:1px solid var(--line2);border-radius:999px;
+    padding:7px 13px;margin-bottom:24px;background:var(--accentSoft);
+  }
+  .kicker i{display:block;width:6px;height:6px;border-radius:1px;background:var(--accent)}
+  h1{font-size:clamp(36px,6.4vw,64px);line-height:1.02;letter-spacing:-.035em;margin:0 0 22px;font-weight:760;max-width:880px}
+  h1 span{color:var(--accent)}
+  .lead{max-width:720px;color:var(--muted);font-size:clamp(17px,2.2vw,20px);margin:0 0 15px}
+  .lead strong{color:var(--text);font-weight:650}
+  .btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    min-height:46px;padding:12px 19px;border-radius:10px;border:1px solid transparent;
+    text-decoration:none;font-weight:700;font-size:15px;transition:all .18s ease;
+  }
+  .btn-primary{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+  .btn-primary:hover{background:#5558ea;box-shadow:0 16px 36px rgba(99,102,241,.28);transform:translateY(-1px)}
+  .btn-ghost{background:rgba(255,255,255,.02);color:var(--text);border-color:var(--line2)}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent);background:var(--accentSoft)}
+
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-top:38px}
+  .panel{background:linear-gradient(180deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:14px;padding:22px}
+  .panel h2,.panel h3{margin:0 0 12px;font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:760}
+  .panel p{margin:0;color:var(--muted);font-size:15px}
+  .tree{
+    margin:0;background:var(--code);border:1px solid var(--line);border-radius:12px;
+    padding:18px 19px;overflow:auto;font-family:var(--mono);font-size:13px;line-height:1.85;
+    color:var(--muted);white-space:pre;
+  }
+  .tree .f{color:var(--text)} .tree .d{color:var(--accent)} .tree .n{color:var(--faint)}
+
+  section{padding:58px 0;border-bottom:1px solid var(--line)}
+  .sec-head{display:flex;align-items:baseline;gap:15px;margin-bottom:13px}
+  .sec-num{font-family:var(--mono);font-size:13px;letter-spacing:.08em;color:var(--accent2)}
+  h2{font-size:clamp(24px,3.5vw,34px);line-height:1.15;letter-spacing:-.02em;margin:0;font-weight:740}
+  .intro{max-width:720px;margin:0;color:var(--muted)}
+  .intro strong{color:var(--text);font-weight:650}
+
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px}
+  .card .tag{font-family:var(--mono);font-size:12px;color:var(--accent);margin-bottom:8px}
+  .card h3{font-size:17px;line-height:1.25;margin:0 0 8px}
+  .card p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.55}
+
+  .steps{margin-top:30px;display:flex;flex-direction:column;gap:22px}
+  .step{display:grid;grid-template-columns:42px 1fr;gap:17px;position:relative}
+  .step:not(:last-child)::before{content:"";position:absolute;left:20px;top:43px;bottom:-24px;width:1px;background:linear-gradient(var(--accent2),rgba(99,102,241,.08))}
+  .badge{width:42px;height:42px;border-radius:11px;background:var(--surface);border:1px solid var(--accent2);display:grid;place-items:center;color:var(--accent);font-family:var(--mono);font-weight:750;z-index:1}
+  .step-body{background:rgba(18,22,32,.62);border:1px solid var(--line);border-radius:13px;padding:19px 20px}
+  .step-body h3{margin:0 0 6px;font-size:18px}
+  .step-body p{margin:0;color:var(--muted);font-size:15px}
+  code{font-family:var(--mono);font-size:.9em;color:var(--accent);background:var(--accentSoft);border:1px solid rgba(129,140,248,.16);border-radius:6px;padding:2px 6px}
+
+  .install-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
+  .codebox{background:var(--code);border:1px solid var(--line);border-radius:13px;overflow:hidden}
+  .codebar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.025)}
+  .codebar span{font-family:var(--mono);font-size:12.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .copy{
+    display:inline-flex;align-items:center;gap:7px;cursor:pointer;
+    border:1px solid var(--line2);border-radius:8px;background:var(--surface2);
+    color:var(--muted);font-family:var(--sans);font-weight:700;font-size:12.5px;
+    padding:7px 11px;transition:all .16s ease;min-height:34px;
+  }
+  .copy:hover{color:var(--text);border-color:var(--accent2);background:var(--accentSoft)}
+  .copy svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.9}
+  .copy.ok{color:var(--green);border-color:rgba(52,211,153,.5);background:rgba(52,211,153,.12)}
+  pre{margin:0;padding:18px;overflow:auto;color:#d8dde8;font-family:var(--mono);font-size:13px;line-height:1.72;tab-size:2}
+
+  .outputs{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
+  .output{background:var(--surface);border:1px solid var(--line);border-top:2px solid var(--accent2);border-radius:12px;padding:20px}
+  .output h3{margin:0 0 8px;font-size:18px}
+  .output p{margin:0;color:var(--muted);font-size:15px}
+  .note{margin-top:24px;border:1px solid var(--line);border-left:2px solid var(--accent2);border-radius:0 12px 12px 0;background:var(--bg2);padding:18px 21px;color:var(--muted);font-size:15px}
+  .note b{color:var(--text)}
+
+  .prompt-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
+  .faq{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px}
+  .faq h3{margin:0 0 8px;font-size:17px}
+  .faq p{margin:0;color:var(--muted);font-size:15px}
+  footer{padding:42px 0 64px;text-align:center;color:var(--faint);font-size:14px}
+  footer a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(129,140,248,.35)}
+
+  @media (max-width:780px){
+    body{font-size:16px}
+    .topbar{align-items:flex-start}
+    .nav{flex-wrap:wrap;justify-content:flex-end}
+    header{padding-top:50px}
+    .hero-grid,.cards,.install-grid,.outputs,.prompt-grid,.faq{grid-template-columns:1fr}
+    .step{grid-template-columns:36px 1fr;gap:14px}
+    .badge{width:36px;height:36px;border-radius:9px}
+    .step:not(:last-child)::before{left:17px}
+  }
+  @media (max-width:520px){
+    .wrap{padding:0 18px}
+    .topbar{display:block}
+    .nav{justify-content:flex-start;margin-top:16px}
+    h1{font-size:38px}
+    .btn{width:100%}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand"><span class="mark"></span><span>Deleg<b>IA</b> · recurso público</span></div>
+    <nav class="nav" aria-label="Enlaces principales">
+      <a href="https://github.com/albertlopezyt/voice-builder-skill" target="_blank" rel="noopener">GitHub <svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+      <a href="#instalar">Instalar</a>
+      <a href="#usar">Usar</a>
+    </nav>
+  </div>
+
+  <header>
+    <span class="kicker"><i></i>Skill para Claude Code y Codex</span>
+    <h1>Instala una <span>memoria de voz</span> para tus agentes.</h1>
+    <p class="lead">Voice Builder convierte tu criterio de comunicación en dos archivos que cualquier agente puede leer antes de escribir: <strong>about-me.md</strong> y <strong>voice.md</strong>.</p>
+    <p class="lead">No es un generador de contenido completo. Es el cimiento para que tus posts, emails, guiones y páginas mantengan la misma voz sin explicarlo todo cada vez.</p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="https://github.com/albertlopezyt/voice-builder-skill" target="_blank" rel="noopener">Abrir repo en GitHub <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="btn btn-ghost" href="https://github.com/albertlopezyt/voice-builder-skill/archive/refs/heads/main.zip">Descargar ZIP</a>
+    </div>
+
+    <div class="hero-grid">
+      <div class="panel">
+        <h2>Qué hace</h2>
+        <p>Te entrevista, lee 3 a 5 muestras de escritura, detecta patrones de voz y crea una base reutilizable para futuros agentes.</p>
+      </div>
+      <div class="tree"><span class="f">voice-builder-skill/</span>
+├─ <span class="f">index.html</span>          <span class="n">guía visual</span>
+├─ <span class="f">GUIA.md</span>             <span class="n">guía paso a paso</span>
+└─ <span class="d">voice-builder/</span>       <span class="n">skill instalable</span>
+   ├─ <span class="f">SKILL.md</span>
+   └─ <span class="d">references/</span></div>
+    </div>
+  </header>
+
+  <section id="que-es">
+    <div class="sec-head"><span class="sec-num">00</span><h2>Qué vas a instalar</h2></div>
+    <p class="intro">Una skill portable. La copias en tu carpeta de skills, reinicias el agente y la invocas con <code>$voice-builder</code>. Desde ahí, el agente sigue un proceso cerrado.</p>
+    <div class="cards">
+      <div class="card"><div class="tag">01</div><h3>Entrevista</h3><p>10 preguntas sobre identidad, audiencia, temas, punto de vista, tono, reglas y anti-patrones.</p></div>
+      <div class="card"><div class="tag">02</div><h3>Muestras</h3><p>3 a 5 textos tuyos: posts, emails, newsletters, web, guiones, transcripciones o mensajes internos.</p></div>
+      <div class="card"><div class="tag">03</div><h3>Memoria</h3><p>Dos archivos que otros agentes pueden leer antes de escribir o revisar cualquier pieza.</p></div>
+    </div>
+  </section>
+
+  <section id="instalar">
+    <div class="sec-head"><span class="sec-num">01</span><h2>Instalación</h2></div>
+    <p class="intro">Descarga el repo y copia la carpeta <code>voice-builder</code> en la ubicación de skills de tu herramienta.</p>
+    <div class="install-grid">
+      <div class="codebox">
+        <div class="codebar"><span>Claude Code</span><button class="copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg><span class="t">Copiar</span></button></div>
+<pre>git clone https://github.com/albertlopezyt/voice-builder-skill
+cd voice-builder-skill
+mkdir -p ~/.claude/skills
+cp -R voice-builder ~/.claude/skills/</pre>
+      </div>
+      <div class="codebox">
+        <div class="codebar"><span>Codex</span><button class="copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg><span class="t">Copiar</span></button></div>
+<pre>git clone https://github.com/albertlopezyt/voice-builder-skill
+cd voice-builder-skill
+mkdir -p ~/.codex/skills
+cp -R voice-builder ~/.codex/skills/</pre>
+      </div>
+    </div>
+    <div class="note"><b>Importante.</b> Después de copiar la carpeta, cierra y vuelve a abrir tu sesión de agente. Las skills se cargan al arrancar.</div>
+  </section>
+
+  <section id="usar">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Uso paso a paso</h2></div>
+    <p class="intro">El proceso está pensado para responder en bloque y no perderte en una conversación interminable.</p>
+    <div class="steps">
+      <div class="step"><span class="badge">1</span><div class="step-body"><h3>Invoca la skill</h3><p>Escribe <code>Use $voice-builder to build my voice profile.</code> o <code>Usa $voice-builder para construir mi perfil de voz.</code></p></div></div>
+      <div class="step"><span class="badge">2</span><div class="step-body"><h3>Responde la entrevista</h3><p>El agente te dará preguntas numeradas tipo <code>1a</code>, <code>1b</code>, <code>2a</code>. Responde copiando los códigos.</p></div></div>
+      <div class="step"><span class="badge">3</span><div class="step-body"><h3>Pega tus muestras</h3><p>Añade 3 a 5 piezas escritas por ti o por tu marca. Mejor si son parecidas a lo que quieres generar después.</p></div></div>
+      <div class="step"><span class="badge">4</span><div class="step-body"><h3>Recibe tus archivos</h3><p>La skill crea <code>voice-profiles/{profile-slug}/about-me.md</code> y <code>voice-profiles/{profile-slug}/voice.md</code>.</p></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">03</span><h2>Qué archivos crea</h2></div>
+    <p class="intro">La salida es pequeña a propósito. Tiene que caber en contexto y ser fácil de leer por cualquier agente antes de producir una pieza.</p>
+    <div class="outputs">
+      <div class="output"><h3>about-me.md</h3><p>Identidad, audiencia, temas, punto de vista, anti-temas, promesa y contexto. Es el criterio estratégico.</p></div>
+      <div class="output"><h3>voice.md</h3><p>Tono, ritmo, aperturas, cierres, vocabulario, estructuras, reglas duras, ausencias y excepciones. Es el criterio operativo.</p></div>
+    </div>
+    <div class="codebox" style="margin-top:18px">
+      <div class="codebar"><span>output esperado</span><button class="copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg><span class="t">Copiar</span></button></div>
+<pre>voice-profiles/mi-marca/
+  about-me.md
+  voice.md</pre>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">04</span><h2>Prompts para usar tu voz después</h2></div>
+    <p class="intro">Voice Builder no crea todo el sistema de contenido. Crea la memoria. Luego se la das a cualquier agente antes de pedir trabajo.</p>
+    <div class="prompt-grid">
+      <div class="codebox">
+        <div class="codebar"><span>Escribir un post</span><button class="copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg><span class="t">Copiar</span></button></div>
+<pre>Lee voice-profiles/mi-marca/about-me.md y voice-profiles/mi-marca/voice.md.
+Después escribe un post de LinkedIn sobre [tema] respetando esa voz.</pre>
+      </div>
+      <div class="codebox">
+        <div class="codebar"><span>Revisar un texto</span><button class="copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg><span class="t">Copiar</span></button></div>
+<pre>Lee voice-profiles/mi-marca/about-me.md y voice-profiles/mi-marca/voice.md.
+Después revisa este texto y dime qué no encaja con mi voz:
+
+[pega aquí el texto]</pre>
+      </div>
+      <div class="codebox">
+        <div class="codebar"><span>Sacar ideas</span><button class="copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg><span class="t">Copiar</span></button></div>
+<pre>Lee voice-profiles/mi-marca/about-me.md y voice-profiles/mi-marca/voice.md.
+Después dame 20 ideas de contenido que encajen con mis temas, mi punto de vista y mi tono.</pre>
+      </div>
+      <div class="codebox">
+        <div class="codebar"><span>Reescribir un email</span><button class="copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"></path></svg><span class="t">Copiar</span></button></div>
+<pre>Lee voice-profiles/mi-marca/about-me.md y voice-profiles/mi-marca/voice.md.
+Después reescribe este email para que suene como yo:
+
+[pega aquí el email]</pre>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">05</span><h2>Problemas frecuentes</h2></div>
+    <div class="faq">
+      <div><h3>El agente no detecta la skill</h3><p>Comprueba que la carpeta <code>voice-builder</code> está dentro de <code>~/.claude/skills</code> o <code>~/.codex/skills</code>, y que dentro existe <code>SKILL.md</code>. Reinicia la sesión.</p></div>
+      <div><h3>No tengo 3 muestras</h3><p>Usa emails, notas, mensajes largos, textos de tu web o transcripciones. La skill funciona mejor con 3 a 5 piezas, pero puedes empezar con lo disponible.</p></div>
+      <div><h3>Quiero voz de empresa, no personal</h3><p>Responde la entrevista como marca y pega muestras escritas por esa marca. El agente separará identidad, tono y reglas por contexto.</p></div>
+      <div><h3>¿Genera calendario completo?</h3><p>No. Genera la memoria base. Para calendarios, posts o emails, pide al agente que lea <code>about-me.md</code> y <code>voice.md</code> antes de trabajar.</p></div>
+    </div>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="https://github.com/albertlopezyt/voice-builder-skill" target="_blank" rel="noopener">Ir al repo <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="btn btn-ghost" href="https://delegia.es" target="_blank" rel="noopener">DelegIA</a>
+    </div>
+  </section>
+
+  <footer>
+    Recurso público de <a href="https://delegia.es" target="_blank" rel="noopener">DelegIA</a>. Skill white-label para instalar memoria de voz en agentes.
+  </footer>
+</div>
+
+<script>
+  function flash(btn){
+    btn.classList.add('ok');
+    var label = btn.querySelector('.t');
+    var old = label.textContent;
+    label.textContent = 'Copiado';
+    setTimeout(function(){ label.textContent = old; btn.classList.remove('ok'); }, 1500);
+  }
+  function legacyCopy(text, btn){
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.top = '0';
+    ta.style.left = '0';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(ta);
+    flash(btn);
+  }
+  function copyCode(btn){
+    var pre = btn.closest('.codebox').querySelector('pre');
+    var text = pre.textContent.replace(/^\n+/, '').replace(/\s+$/, '');
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function(){ flash(btn); }, function(){ legacyCopy(text, btn); });
+    } else {
+      legacyCopy(text, btn);
+    }
+  }
+</script>
+</body>
+</html>

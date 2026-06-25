@@ -1,0 +1,4 @@
+interface:
+  display_name: "Voice Builder"
+  short_description: "Build a reusable writing voice profile"
+  default_prompt: "Use $voice-builder to create about-me.md and voice.md from an interview and writing samples."
